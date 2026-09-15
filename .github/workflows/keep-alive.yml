@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Ping PVR Backend
         run: |
-          curl -s -f -m 30 "https://pvr-backend-pejx.onrender.com/v1/health" || echo "PVR ping failed or waking up"
+          curl -s -f -m 60 "https://pvr-backend-pejx.onrender.com/v1/health" || echo "PVR ping failed or waking up"
 
       - name: Ping Vybh Core Monolith
         run: |
-          curl -s -f -m 30 "https://booking-app-backend-wp46.onrender.com/health" || echo "Vybh ping failed or waking up"
+          curl -s -f -m 60 "https://booking-app-backend-wp46.onrender.com/health" || echo "Vybh ping failed or waking up"
