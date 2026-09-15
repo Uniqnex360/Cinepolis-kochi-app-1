@@ -59,8 +59,16 @@ def clean_async_db_url(url: str) -> str:
     return urllib.parse.urlunsplit(parsed._replace(query=new_query))
 
 
-engine = create_async_engine(clean_async_db_url(settings.DATABASE_URL), echo=False)
-
+engine = create_async_engine(
+    clean_async_db_url(settings.DATABASE_URL),
+    echo=False,
+    
+    pool_pre_ping=True,      
+    pool_recycle=300,        
+    
+    pool_size=5,             
+    max_overflow=0,          
+)
 async_session_factory = async_sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
 )
