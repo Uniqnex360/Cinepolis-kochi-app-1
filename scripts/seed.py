@@ -1,21 +1,19 @@
-
 from __future__ import annotations
 
 import sys
 import uuid
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from passlib.context import CryptContext  
-from sqlalchemy import create_engine, func, select  
-from sqlalchemy.orm import Session  
+from passlib.context import CryptContext
+from sqlalchemy import create_engine, func, select
+from sqlalchemy.orm import Session
 
-from app.core.config import settings  
-from app.movie.models import (  
+from app.core.config import settings
+from app.movie.models import (
     Cinema,
     Movie,
     Screen,
@@ -26,7 +24,6 @@ from app.movie.models import (
 )
 
 pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 ROW_CONFIGS: list[tuple[str, int, int]] = [
     ("A", 20, 19_000),
@@ -54,12 +51,13 @@ def _to_sync_url(async_url: str) -> str:
         sync_url = sync_url.replace("ssl=require", "sslmode=require")
     return sync_url
 
+
 def seed(db_url: str | None = None) -> None:
     url = _to_sync_url(db_url or settings.DATABASE_URL)
     engine = create_engine(url)
 
     with Session(engine) as s:
-        
+        # 1. User
         user = s.execute(
             select(User).where(User.email == "demo@pvr.local")
         ).scalar_one_or_none()
@@ -73,7 +71,7 @@ def seed(db_url: str | None = None) -> None:
             s.add(user)
             s.flush()
 
-        
+        # 2. Cinema
         cinema = s.execute(
             select(Cinema).where(Cinema.name == "PVR Lulu Mall")
         ).scalar_one_or_none()
@@ -87,7 +85,7 @@ def seed(db_url: str | None = None) -> None:
             s.add(cinema)
             s.flush()
 
-        
+        # 3. Screens & Seats
         screens_dict = {}
         for screen_name in ["Screen 1", "Screen 2"]:
             scr = s.execute(
@@ -104,7 +102,6 @@ def seed(db_url: str | None = None) -> None:
                 s.flush()
             screens_dict[screen_name] = scr
 
-            
             for label, seat_count, price_cents in ROW_CONFIGS:
                 row = s.execute(
                     select(ScreenRow).where(
@@ -140,8 +137,7 @@ def seed(db_url: str | None = None) -> None:
                         )
                     s.flush()
 
-        
-        
+        # 4. Movies
         m1 = s.execute(
             select(Movie).where(Movie.title == "I Am Game")
         ).scalar_one_or_none()
@@ -157,7 +153,6 @@ def seed(db_url: str | None = None) -> None:
             s.add(m1)
             s.flush()
 
-        
         m2 = s.execute(
             select(Movie).where(Movie.title == "The Final Whistle")
         ).scalar_one_or_none()
@@ -173,55 +168,54 @@ def seed(db_url: str | None = None) -> None:
             s.add(m2)
             s.flush()
 
-        
+        # 5. Seed Showtimes for Today and the Next 7 Days
         tz = ZoneInfo(cinema.timezone)
         today = datetime.now(tz).date()
 
-        
-        for t in MOVIE_1_TIMES:
-            local_dt = datetime.combine(today, t, tzinfo=tz)
-            utc_dt = local_dt.astimezone(ZoneInfo("UTC"))
-            st = s.execute(
-                select(Showtime).where(
-                    Showtime.screen_id == screens_dict["Screen 1"].id,
-                    Showtime.starts_at == utc_dt,
-                )
-            ).scalar_one_or_none()
-            if not st:
-                s.add(
-                    Showtime(
-                        id=uuid.uuid4(),
-                        screen_id=screens_dict["Screen 1"].id,
-                        movie_id=m1.id,
-                        starts_at=utc_dt,
-                    )
-                )
+        for day_offset in range(8):  # Today + next 7 days
+            target_date = today + timedelta(days=day_offset)
 
-        
-        for t in MOVIE_2_TIMES:
-            local_dt = datetime.combine(today, t, tzinfo=tz)
-            utc_dt = local_dt.astimezone(ZoneInfo("UTC"))
-            st = s.execute(
-                select(Showtime).where(
-                    Showtime.screen_id == screens_dict["Screen 2"].id,
-                    Showtime.starts_at == utc_dt,
-                )
-            ).scalar_one_or_none()
-            if not st:
-                s.add(
-                    Showtime(
-                        id=uuid.uuid4(),
-                        screen_id=screens_dict["Screen 2"].id,
-                        movie_id=m2.id,
-                        starts_at=utc_dt,
+            for t in MOVIE_1_TIMES:
+                local_dt = datetime.combine(target_date, t, tzinfo=tz)
+                utc_dt = local_dt.astimezone(ZoneInfo("UTC"))
+                st = s.execute(
+                    select(Showtime).where(
+                        Showtime.screen_id == screens_dict["Screen 1"].id,
+                        Showtime.starts_at == utc_dt,
                     )
-                )
+                ).scalar_one_or_none()
+                if not st:
+                    s.add(
+                        Showtime(
+                            id=uuid.uuid4(),
+                            screen_id=screens_dict["Screen 1"].id,
+                            movie_id=m1.id,
+                            starts_at=utc_dt,
+                        )
+                    )
+
+            for t in MOVIE_2_TIMES:
+                local_dt = datetime.combine(target_date, t, tzinfo=tz)
+                utc_dt = local_dt.astimezone(ZoneInfo("UTC"))
+                st = s.execute(
+                    select(Showtime).where(
+                        Showtime.screen_id == screens_dict["Screen 2"].id,
+                        Showtime.starts_at == utc_dt,
+                    )
+                ).scalar_one_or_none()
+                if not st:
+                    s.add(
+                        Showtime(
+                            id=uuid.uuid4(),
+                            screen_id=screens_dict["Screen 2"].id,
+                            movie_id=m2.id,
+                            starts_at=utc_dt,
+                        )
+                    )
 
         s.commit()
 
-    print(
-        "Seeded successfully: 2 Screens, 468 Seats total, 2 Movies, 6 Showtimes."
-    )
+    print("Seeded successfully: 2 Screens, 468 Seats, 2 Movies, showtimes for next 7 days.")
 
 
 if __name__ == "__main__":
