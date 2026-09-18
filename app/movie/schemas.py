@@ -44,6 +44,7 @@ class ShowtimeResponse(BaseModel):
     duration_min: int
     starts_at: datetime
     poster_url: str | None = None
+    city: str | None = None  
 
 
 # ---------------------------------------------------------------------------
