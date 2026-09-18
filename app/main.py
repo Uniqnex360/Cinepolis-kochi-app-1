@@ -10,14 +10,13 @@ from app.movie.routes import movie_router
 
 app = FastAPI(title="PVR Demo API", version="0.1.0")
 
-# Allow Frontend access
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:3000",
-        "*",  # adjust in production if needed
+        "*", 
     ],
     allow_credentials=True,
     allow_methods=["*"],
