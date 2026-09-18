@@ -87,6 +87,7 @@ class MovieRepository:
                         duration_min=movie.duration_min,
                         starts_at=st.starts_at,
                         poster_url=movie.poster_url,
+                        city=cinema.city    
                     )
                 )
 

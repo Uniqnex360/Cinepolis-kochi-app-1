@@ -125,6 +125,7 @@ async def list_showtimes(
             duration_min=st.duration_min,
             starts_at=st.starts_at,
             poster_url=st.poster_url,
+            city=st.city
         )
         for st in dtos
     ]
