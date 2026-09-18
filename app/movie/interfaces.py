@@ -72,6 +72,7 @@ class ShowtimeSummaryDTO:
     certificate: str
     duration_min: int
     starts_at: datetime
+    poster_url: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
