@@ -64,7 +64,7 @@ MOVIES: list[dict] = [
         "language": "Malayalam",
         "certificate": "UA",
         "release_year": 2024,
-        "poster_url": "https://i.pinimg.com/736x/1a/0c/89/1a0c89e0a6b1e4d3f0a2b0d5c9c6f8e1.jpg",
+        "poster_url": "https://i.pinimg.com/736x/07/54/ca/0754ca05f3c520d77466af5ccb8c8817.jpg",
         "times": [time(11, 0), time(15, 0), time(19, 30)],
     },
     {
@@ -73,7 +73,7 @@ MOVIES: list[dict] = [
         "language": "Malayalam",
         "certificate": "UA",
         "release_year": 2024,
-        "poster_url": "https://i.pinimg.com/736x/2b/1d/9a/2b1d9a1f7c4e6b3a8d0f2c4e6b3a8d0f.jpg",
+        "poster_url": "https://i.pinimg.com/736x/3f/ff/d7/3fffd702d48852ede79ed71d04f36a2b.jpg",
         "times": [time(12, 30), time(16, 45), time(20, 15)],
     },
     {
@@ -82,7 +82,7 @@ MOVIES: list[dict] = [
         "language": "Malayalam",
         "certificate": "UA",
         "release_year": 2025,
-        "poster_url": "https://i.pinimg.com/736x/3c/2e/8b/3c2e8b6d1a5f9c7e3b0d6f9c1a5f9c7e.jpg",
+        "poster_url": "https://i.pinimg.com/736x/33/43/3d/33433d63732e0e1222ae3534bf6495f9.jpg",
         "times": [time(10, 30), time(14, 30), time(18, 30)],
     },
     {
@@ -91,7 +91,7 @@ MOVIES: list[dict] = [
         "language": "Malayalam",
         "certificate": "UA",
         "release_year": 2024,
-        "poster_url": "https://i.pinimg.com/736x/4d/3f/7c/4d3f7c5e2b6a8d0f4c7e2b6a8d0f4c7e.jpg",
+        "poster_url": "https://i.pinimg.com/736x/a9/6c/8e/a96c8ee5b797bc99ca40b76e2bc3c3da.jpg",
         "times": [time(13, 15), time(17, 15), time(21, 30)],
     },
     {
@@ -100,7 +100,7 @@ MOVIES: list[dict] = [
         "language": "Malayalam",
         "certificate": "U",
         "release_year": 2025,
-        "poster_url": "https://i.pinimg.com/736x/5e/4a/6d/5e4a6d3f8c1b7e2a9d4f8c1b7e2a9d4f.jpg",
+        "poster_url": "https://i.pinimg.com/736x/38/20/ae/3820ae353bfc17219ef90810ab47c5b4.jpg",
         "times": [time(11, 45), time(16, 0), time(20, 45)],
     },
 ]
