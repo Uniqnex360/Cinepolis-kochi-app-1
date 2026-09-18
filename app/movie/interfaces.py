@@ -74,6 +74,7 @@ class ShowtimeSummaryDTO:
     starts_at: datetime
     poster_url: str | None = None
     city: str | None = None
+    genre: str | None = None   
 
 
 @dataclass(frozen=True, slots=True)
