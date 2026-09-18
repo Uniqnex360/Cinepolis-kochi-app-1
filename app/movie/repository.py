@@ -86,6 +86,7 @@ class MovieRepository:
                         certificate=movie.certificate,
                         duration_min=movie.duration_min,
                         starts_at=st.starts_at,
+                        poster_url=movie.poster_url,
                     )
                 )
 
