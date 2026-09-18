@@ -181,6 +181,7 @@ class Movie(Base):
     certificate = Column(String, nullable=False)
     poster_url = Column(String, nullable=True)
     release_year = Column(Integer, nullable=False)
+    genre = Column(String(120), nullable=True)      
 
 
 class Showtime(Base):
