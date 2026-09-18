@@ -199,12 +199,10 @@ def _ensure_screen(s: Session, cinema_id: uuid.UUID, name: str) -> Screen:
     ).scalar_one_or_none()
     if screen:
         return screen
-    total_seats = sum(r[1] for r in ROW_CONFIGS)
     screen = Screen(
         id=uuid.uuid4(),
         cinema_id=cinema_id,
         name=name,
-        total_seats=total_seats,
     )
     s.add(screen)
     s.flush()
