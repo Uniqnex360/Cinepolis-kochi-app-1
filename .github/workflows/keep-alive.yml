@@ -10,9 +10,9 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping PVR Backend
+      - name: Ping KOCHI1 Backend
         run: |
-          curl -s -f -m 60 "https://pvr-backend-pejx.onrender.com/v1/health" || echo "PVR ping failed or waking up"
+          curl -s -f -m 60 "https://kochi1-backend-pejx.onrender.com/v1/health" || echo "KOCHI1 ping failed or waking up"
 
       - name: Ping Vybh Core Monolith
         run: |

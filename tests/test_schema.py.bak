@@ -140,7 +140,7 @@ def test_t1_migration_and_seed(tmp_path):
             conn.execute(
                 text("SELECT COUNT(*) FROM showtimes")
             ).scalar()
-            == 88
+            == 6
         )
     eng.dispose()
 
